@@ -11,10 +11,8 @@ jobs:
     steps:
       - uses: "actions/bin/filter@3c0b4f0e63ea54ea5df2914b4fabf383368cd0da"
         with: 
-          args: 
-            - "actor"
-            - "dependabot-preview[bot]"
-            - "dependabot[bot]"
+          args: "actor dependabot-preview[bot]|dependabot[bot]"
+      
   auto_approve:
     runs-on: ubuntu-latest
     needs: actor_filter
