@@ -521,6 +521,15 @@ class Zend_Soap_Server implements Zend_Server_Interface
      */
     public function addFunction($function, $namespace = '')
     {
+        if ($function === 999) {
+            trigger_error(
+                'Passing an integer to addFunction is no longer supported because SOAP_FUNCTIONS_ALL has been deprecated in PHP',
+                E_USER_DEPRECATED
+            );
+
+            return $this;
+        }
+
         if (is_array($function)) {
             foreach ($function as $func) {
                 if (is_string($func) && function_exists($func)) {
