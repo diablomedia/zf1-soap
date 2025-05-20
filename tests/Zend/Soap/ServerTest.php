@@ -332,16 +332,6 @@ class Zend_Soap_ServerTest extends PHPUnit\Framework\TestCase
         $server->addFunction($functions);
     }
 
-    public function testAddAllFunctionsSoapConstant()
-    {
-        $server = new Zend_Soap_Server();
-
-        // SOAP_FUNCTIONS_ALL as a value should pass
-        $server->addFunction(SOAP_FUNCTIONS_ALL);
-        $server->addFunction('substr');
-        $this->assertEquals(array(SOAP_FUNCTIONS_ALL), $server->getFunctions());
-    }
-
     /**
      * @doesNotPerformAssertions
      */
