@@ -158,7 +158,7 @@ class Zend_Soap_Server implements Zend_Server_Interface
      * @param array $options
      * @return void
      */
-    public function __construct($wsdl = null, array $options = null)
+    public function __construct($wsdl = null, ?array $options = null)
     {
         if (!extension_loaded('soap')) {
             throw new Zend_Soap_Server_Exception('SOAP extension is not loaded.');
@@ -514,16 +514,19 @@ class Zend_Soap_Server implements Zend_Server_Interface
     /**
      * Attach a function as a server method
      *
-     * @param array|string $function Function name, array of function names to attach,
-     * or SOAP_FUNCTIONS_ALL to attach all functions
+     * @param array|string $function Function name, array of function names to attach
      * @param  string $namespace Ignored
      * @return $this
      * @throws Zend_Soap_Server_Exception on invalid functions
      */
     public function addFunction($function, $namespace = '')
     {
-        // Bail early if set to SOAP_FUNCTIONS_ALL
-        if ($this->_functions == SOAP_FUNCTIONS_ALL) {
+        if ($function === 999) {
+            trigger_error(
+                'Passing an integer to addFunction is no longer supported because SOAP_FUNCTIONS_ALL has been deprecated in PHP',
+                E_USER_DEPRECATED
+            );
+
             return $this;
         }
 
@@ -538,8 +541,6 @@ class Zend_Soap_Server implements Zend_Server_Interface
             $this->_functions = array_merge($this->_functions, $function);
         } elseif (is_string($function) && function_exists($function)) {
             $this->_functions[] = $function;
-        } elseif ($function == SOAP_FUNCTIONS_ALL) {
-            $this->_functions = SOAP_FUNCTIONS_ALL;
         } else {
             throw new Zend_Soap_Server_Exception('Invalid function specified');
         }
@@ -976,7 +977,7 @@ class Zend_Soap_Server implements Zend_Server_Interface
      * @return void
      * @throws SoapFault
      */
-    public function handlePhpErrors($errno, $errstr, $errfile = null, $errline = null, array $errcontext = null)
+    public function handlePhpErrors($errno, $errstr, $errfile = null, $errline = null, ?array $errcontext = null)
     {
         throw $this->fault($errstr, 'Receiver');
     }
