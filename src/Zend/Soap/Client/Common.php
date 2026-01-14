@@ -63,12 +63,12 @@ if (extension_loaded('soap')) {
          * @return mixed
          */
         #[\ReturnTypeWillChange]
-        public function __doRequest($request, $location, $action, $version, $one_way = null)
+        public function __doRequest(string $request, string $location, string $action, int $version, bool $oneWay = false, ?string $uriParserClass = null): ?string
         {
-            if ($one_way === null) {
+            if ($oneWay === null) {
                 return call_user_func($this->_doRequestCallback, $this, $request, $location, $action, $version);
             } else {
-                return call_user_func($this->_doRequestCallback, $this, $request, $location, $action, $version, $one_way);
+                return call_user_func($this->_doRequestCallback, $this, $request, $location, $action, $version, $oneWay);
             }
         }
     }
